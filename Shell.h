@@ -3,15 +3,26 @@
 #include <unordered_map>
 #include <iostream>
 #include "Process.h"
+
+/*Singleton class that holds the Shell */
 class Shell{
 public:
-  Shell(std::string dir);
+	static Shell *instance();
 
-  void start();
+	void loop();
+
+	static std::string getCurrentDirectory();
+private:
+	Shell();
+	Shell(Shell &s)=delete;
+	void operator=(Shell &s)=delete;
+
+private:
+	static Shell *instance;
 
  private:
-  std::string currDir;
-  std::unordered_map<int,Process> processMap;
+  	std::string currDir;
+  	std::unordered_map<int,Process> processMap;
 
 };
 #include "Shell.cpp"
