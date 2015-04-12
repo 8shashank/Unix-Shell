@@ -3,5 +3,5 @@ class Command{
 
     virtual ~Command();
 
-    virtual void Command();
+    virtual void execute();
 }
