@@ -6,8 +6,6 @@
 #include <linux/limits.h>
 #include "Shell.h"
 
-
-
 int main(){
 	//get current working directory
     std::string cur=getCurrentDirectory();

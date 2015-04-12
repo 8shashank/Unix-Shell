@@ -5,11 +5,33 @@ Shell::~Shell(){
 }
 
 std::string getCurrentDirectory(){
-    char cwd[PATH_MAX];
+	return currDir;
+}
+
+void changeCurrentDirectory(std::string fname){
+	if (fname.length>PATH_MAX){
+		throw std::runtime_error("Path is longer than maximum allowed size.");
+	}
+
+	const char path[PATH_MAX];
+	strncpy(fname, path.c_str(), sizeof(fname));
+
+	int ret=chdir(path);
+	if (ret==0){
+		currDir=fname;
+	}
+	else{
+		throw std::runtime_error("Could not change directory, received error "+ret);
+	}
+}
+
+/*Retrieve the value of current directory from OS and store it */
+std::string setCurrentDirectory(){
+   char cwd[PATH_MAX];
    if (getcwd(cwd, sizeof(cwd)) == NULL){
        throw std::runtime_error ("Can't get current working directory.");
     }
-	return std::string(cwd);
+    currDir=std::string(cwd);
 }
 
 Shell *Shell::instance(){
@@ -23,4 +45,6 @@ void Shell::loop(){
 
 }
 
-Shell::Shell(std::string dir):currDir(dir){}
+Shell::Shell(std::string dir){
+	setCurrentDirectory();
+}

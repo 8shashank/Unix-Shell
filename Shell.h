@@ -11,11 +11,15 @@ public:
 
 	void loop();
 
-	static std::string getCurrentDirectory();
+	std::string getCurrentDirectory();
+
+	void changeCurrentDirectory(std::string dir);
 private:
 	Shell();
 	Shell(Shell &s)=delete;
 	void operator=(Shell &s)=delete;
+	std::string setCurrentDirectory();
+
 
 private:
 	static Shell *instance;
