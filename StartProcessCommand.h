@@ -2,6 +2,8 @@
 #define START_PROCESS_COMMAND
 
 #include "Typedefs.h"
+#include <sys/types.h>
+#include <sys/wait.h>
 
 class StartProcessCommand{
     
@@ -10,6 +12,8 @@ public:
     StartProcessCommand(std::vector<std::string> args,bool bg_,bool autorec_);
     
     void execute();
+    
+    void sig_handler();
     
 private:
     std::string processName;

@@ -23,6 +23,8 @@ public:
 	void changeCurrentDirectory(std::string dir);
 
 	void addProcess(int pid, Process process);
+    Process& getProcess(int pid);
+    
 private:
 	Shell();
 	Shell(Shell &s)=delete;

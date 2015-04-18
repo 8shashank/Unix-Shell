@@ -22,6 +22,7 @@ public:
     void set_state(std::string state);
     void set_signal(int sig);
     int get_signal();
+    bool isBg();
     bool isAutoRecovery();
     
 private:

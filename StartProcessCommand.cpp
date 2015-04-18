@@ -77,3 +77,48 @@ void StartProcessCommand::waitForExit(int rc){
             //If none of above true, child was either stopped or continued. Wait for termination.
         }
     }
+
+
+void StartProcessCommand::sig_handler(int sig){
+    int pid = 0;
+    int status;
+    do{
+        pid = waitpid(-1,&status,WNOHANG);
+        if (pid != 0){
+            
+            Process* deadProcess;
+            Shell *s = Shell::instance();
+            deadProcess = s->getProcess(pid);
+            
+            if (deadProcess->isBg()){
+                if (WIFEXITED(status)){
+                    s->set_state("Exited");
+                    
+                    if (WEXITSTATUS(status)==0){
+                        std::cout<<"Child "<<pid<<" exited successfully";
+                    }
+                    else{
+                        std::cout<<"Child "<<pid<<" did not exit successfully.";
+                    }
+                }
+                else if (WIFSIGNALED(status)){
+                    int terminated_sig = WTERMSIG(status);
+                    s->set_signal(terminated_sig);
+                    std::cout<<"Child "<<pid<<" terminated by signal "<<terminated_sig;
+                }
+            
+                if (s->isAutoRecovery()) {
+                    StartProcessCommand RecCommand()
+                }
+            }
+            
+        }
+        
+        
+    }while(pid!=0)
+    
+    
+    
+    
+    
+}
