@@ -4,4 +4,4 @@ class Command{
     virtual ~Command();
 
     virtual void execute();
-}
+};
