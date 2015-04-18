@@ -18,6 +18,5 @@ void CdCommand::execute(){
     Shell* m = s.instance();     //get Shell singleton
     
     m->changeCurrentDirectory(directory);  //change current dir of main shell
-    m->setCurrentDirectory();
 }
 

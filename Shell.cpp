@@ -23,6 +23,7 @@ void changeCurrentDirectory(std::string fname){
 	else{
 		throw std::runtime_error("Could not change directory, received error "+ret);
 	}
+	setCurrentDirectory();
 }
 
 /*Retrieve the value of current directory from OS and store it */
