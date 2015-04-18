@@ -20,3 +20,7 @@ void Process::set_signal(int sig){
 bool Process::isAutoRecovery(){
 	return autorec;
 }
+
+bool Process::isBg(){
+    return bg_;
+}

@@ -30,6 +30,10 @@ void addProcess(int pid,Process process){
 	processMap.insert (std::make_pair<int,shared_ptr<Process>>(pid,process));
 }
 
+Process& getProcess(int pid){
+    return processMap[pid];
+}
+
 /*Retrieve the value of current directory from OS and store it */
 std::string setCurrentDirectory(){
    char cwd[PATH_MAX];
