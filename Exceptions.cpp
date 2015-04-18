@@ -1,5 +1,5 @@
 #include <exception>
-
+namespace Shell{
 class ParserException : public std::exception
 {
 public:
@@ -13,6 +13,7 @@ private:
 ParserException::ParserException(const std::string& message):msg(message){};
 
 char const *ParserException::what() const throw(){ return msg.c_str(); }
+}
 
 
 

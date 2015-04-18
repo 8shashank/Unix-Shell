@@ -1,8 +1,9 @@
+#include "Typedefs.h"
 class CommandFactory{
 
     CommandFactory();
 
-    Command *makeCommand(std::string inp);
+    Command *makeCommand(std::vector<std::string> &args);
 
     ~CommandFactory();
-}
+};

@@ -42,13 +42,21 @@ Shell *Shell::instance(){
 }
 
 void Shell::loop(){
+	Parser p;
 	std::string input;
-	do
-	{
-		Command cmd=factory.makeCommand(input);
+	std::string n;
+	std::vector<std::string> args;
+	std::getline (std::cin,input);
+	while (input!="exit"){
+		args=p.parse(input);
+
+		Command cmd=factory.makeCommand(args);
 		cmd.execute();
-	} while(continue);
-}
+
+		std::cin.clear();
+		std::getline (std::cin,input);
+	}
+};
 
 std::string getInput()
 

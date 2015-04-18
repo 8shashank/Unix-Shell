@@ -1,21 +1,40 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <algorithm>
+#include <iterator>
+
 class Parser{
 public:
 Parser();
-std::vector<std::string*> parse(std::string);
+std::vector<std::string> parse(std::string);
 
 private:
+	char delim;
+	char pipeOperator;
+	char redirectOutputOperator;
+	char redirectInputOperator;
+	char escapeCharacter;
+	char singleQuoteCharacter;
+	char doubleQuoteCharacter;
 };
 
-Parser::Parser(){
+Parser::Parser():
+	delim(' ')
+	,pipeOperator('|')
+	,redirectOutputOperator('>')
+	,redirectInputOperator('<')
+	,escapeCharacter('\\')
+	,singleQuoteCharacter('\'')
+	,doubleQuoteCharacter('"')
+{
+
 };
 
-//Not exception safe yet. std::vector did not appear to 
-// be copying std::strings on return(got segfault) so currently using pointers.
-
-std::vector<std::string*> Parser::parse(std::string str){
-	std::vector<std::string*> args;
+std::vector<std::string> Parser::parse(std::string str){
+	std::vector<std::string> args;
 	std::string curr="";
-	char delim=' ';
+
 	char prevChar='\0';
 	char quote='\0';
 	bool insideQuotes=false;
@@ -30,8 +49,8 @@ std::vector<std::string*> Parser::parse(std::string str){
 			}
 
 			else{
-				//do not escape if different quote types
-				//eg: "\'" returns \' not '
+				//escape if required to continue
+				//quote
 				if (quote==c){
 					curr+=c;
 				}
@@ -43,16 +62,21 @@ std::vector<std::string*> Parser::parse(std::string str){
 
 		//Handle regular case
 		else{
-			if (c=='\\'){
+			if (c==escapeCharacter){
 				//ignore escape character
 			}
-			else if (c=='"' || c=='\''){
+			else if (c==singleQuoteCharacter || c==doubleQuoteCharacter){
 				insideQuotes=!insideQuotes;
 				quote=c;
 			}
+			else if (c==pipeOperator || c==redirectInputOperator || c==redirectInputOperator){
+				args.push_back(std::move(curr));
+				args.push_back(std::string(c));
+				curr="";
+			}
 			else if (c==delim && !insideQuotes){
 				if (curr.length()!=0 ){
-					args.push_back(new std::string(curr));
+					args.push_back(std::move(curr));
 					curr="";
 				}
 			}
@@ -64,11 +88,11 @@ std::vector<std::string*> Parser::parse(std::string str){
 		escaped=((c=='\\') && !escaped);
 	}
 	if (escaped){
-		throw ::ParserException("Last character cannot act as escape character");
+		throw Shell::ParserException("Last character cannot act as escape character");
 	}
 	if (insideQuotes){
-		throw ::ParserException("Quotes not closed");
+		throw Shell::ParserException("Quotes not closed");
 	}
-	args.push_back(new std::string(curr));
+	args.push_back(std::move(curr));
 	return args;
 };
