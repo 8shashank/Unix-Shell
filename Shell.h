@@ -21,6 +21,8 @@ public:
 	std::string getCurrentDirectory();
 
 	void changeCurrentDirectory(std::string dir);
+
+	void addProcess(int pid, Process process);
 private:
 	Shell();
 	Shell(Shell &s)=delete;
@@ -33,7 +35,7 @@ private:
 
  private:
   	std::string currDir;
-  	std::unordered_map<int,Process> processMap;
+  	std::unordered_map<int,shared_ptr<Process>> processMap;
   	CommandFactory factory;
   	bool continue;
 };

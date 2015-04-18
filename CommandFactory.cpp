@@ -17,10 +17,7 @@ Command* makeCommand(str_vect_itr begin,str_vect_itr end){
 	if (*begin=="cd"){
 		return new CdCommand(begin,end);
 	}
-	else if (begin=="echo"){
-		return new EchoCommand(begin,end);
-	}
 	else{
-		return new StartProcessCommand(begin,end);
+		return new StartProcessCommand(begin,end,backgroundProcess);
 	}
 };

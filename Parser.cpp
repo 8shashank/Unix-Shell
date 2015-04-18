@@ -17,6 +17,7 @@ private:
 	char escapeCharacter;
 	char singleQuoteCharacter;
 	char doubleQuoteCharacter;
+	char backgroundJobOperator;
 };
 
 Parser::Parser():
@@ -27,6 +28,7 @@ Parser::Parser():
 	,escapeCharacter('\\')
 	,singleQuoteCharacter('\'')
 	,doubleQuoteCharacter('"')
+	,backgroundJobOperator('&')
 {
 
 };
@@ -69,10 +71,13 @@ std::vector<std::string> Parser::parse(std::string str){
 				insideQuotes=!insideQuotes;
 				quote=c;
 			}
-			else if (c==pipeOperator || c==redirectInputOperator || c==redirectInputOperator){
-				args.push_back(std::move(curr));
+			else if (c==pipeOperator || c==redirectInputOperator || c==redirectInputOperator
+			|| c==backgroundJobOperator){
+				if (curr.length!=0){
+					args.push_back(std::move(curr));
+					curr="";
+				}
 				args.push_back(std::string(c));
-				curr="";
 			}
 			else if (c==delim && !insideQuotes){
 				if (curr.length()!=0 ){

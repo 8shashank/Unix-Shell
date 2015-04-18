@@ -14,9 +14,6 @@ CdCommand::CdCommand(std::string dir):directory(dir)
 }
 
 void CdCommand::execute(){
-    Shell s;
-    Shell* m = s.instance();     //get Shell singleton
-    
-    m->changeCurrentDirectory(directory);  //change current dir of main shell
+    Shell* s=Shell::instance()
+    s->changeCurrentDirectory(directory);  //change current dir of main shell
 }
-
