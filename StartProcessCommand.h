@@ -11,20 +11,22 @@
 
 #include <iostream>
 #include <vector>
+#include "Typedefs.h"
 
 class StartProcessCommand{
-
-public:
-    StartProcessCommand(std::string input);
     
+public:
+    StartProcessCommand(v_Iterator begin,v_Iterator end,bool backgroundProcess);
+    
+    void execute();
     
 private:
-    std::string userinput;
+    std::string processName;
     std::vector<std::string> parsedargs;
-    std::string func_name;
-    int foreground;
-    int autorec;
+    bool bg;
+    bool autorec;
     
 };
 
+#include "StartProcessCommand.cpp"
 #endif /* defined(___81Project__File__) */

@@ -1,18 +1,4 @@
-#include "Typedefs.h"
-class StartProcessCommand{
 
-public:
-    StartProcessCommand(v_Iterator begin,v_Iterator end,bool backgroundProcess);
-
-    void execute();   
-    
-private:
-    std::string processName;
-    std::vector<std::string> parsedargs;
-    bool bg;
-    bool autorec;
-    
-};
 
 StartProcessCommand(v_Iterator begin,v_Iterator end,bool bg_):bg(false),autorec(false){
 	processName=*begin;
