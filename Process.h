@@ -7,8 +7,8 @@
 //  Copyright (c) 2015 Vanderbilt University. All rights reserved.
 //
 
-#ifndef ___81Project__Process__
-#define ___81Project__Process__
+#ifndef PROCESS_H
+#define PROCESS_H
 
 #include <iostream>
 #include <signal.h>
@@ -16,28 +16,21 @@
 class Process{
     
 public:
-    Process(std::string input, int rec, int foreground, int pid);
+    Process(std::string pName, std::vector<std::string> args, bool bg_, bool autorec_);
     Process(const Process& other);
     std::string get_state();
-    void set_state();
-    void set_signal();
+    void set_state(std::string state);
+    void set_signal(int sig);
     int get_signal();
+    bool isAutoRecovery();
     
 private:
-    std::string userinput;
-    int autorec;
-    int foreground;
+    bool autorec;
+    bool bg;
     std::string state;
+     std::vector<std::string> parsedArgs;
     int signal;
-    int pid;
 };
 
-
-#endif /* defined(___81Project__Process__) */
-=======
-class Process{
- private:
-  std::string state;
-  int pid;
-};
->>>>>>> 6363c0a4fbc5a4de7d9e19263235ae26ade941c0
+#include "Process.cpp"
+#endif

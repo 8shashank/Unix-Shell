@@ -1,5 +1,3 @@
-
-
 StartProcessCommand(v_Iterator begin,v_Iterator end,bool bg_):bg(false),autorec(false){
 	processName=*begin;
 	v_Iterator iter=begin+1;

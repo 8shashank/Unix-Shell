@@ -1,10 +1,22 @@
-//
-//  Process.cpp
-//  281Project
-//
-//  Created by Arthur Yingpeng Chu on 4/12/15.
-//  Copyright (c) 2015 Vanderbilt University. All rights reserved.
-//
+Process::Process(std::string pName, std::vector<std::string> args, bool bg_, bool autorec_):
+processName(pName),parsedArgs(args),bg(bg_),autorec(autorec_),signal(-1){};
 
-#include "Process.h"
+std::string Process::get_state(){
+	return state;
+}
 
+void Process::set_state(std::string state_){
+	state=state_;
+}
+
+int Process::get_signal(){
+	return signal;
+}
+
+void Process::set_signal(int sig){
+	signal=sig;
+}
+
+bool Process::isAutoRecovery(){
+	return autorec;
+}
