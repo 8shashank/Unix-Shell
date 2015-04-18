@@ -20,6 +20,10 @@ autorec(autorec_),processName(processName_)
 {
 }
 
+void StartProcessCommand::setInputToPipe(int i){}
+
+void StartProcessCommand::setOutputToPipe(int o){}
+
 void StartProcessCommand::execute(){    
     struct sigaction sig_a;
     sig_a.sa_handler = &sig_handler;
@@ -88,7 +92,6 @@ void StartProcessCommand::waitForExit(int rc){
             //If none of above true, child was either stopped or continued. Wait for termination.
         }
     }
-
 
 void StartProcessCommand::sig_handler(int sig){
     int pid = 0;

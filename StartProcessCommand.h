@@ -13,6 +13,10 @@ class StartProcessCommand{
 public:
     StartProcessCommand(v_Iterator begin,v_Iterator end,bool backgroundProcess);
     StartProcessCommand(std::string processName_,std::vector<std::string> args,bool bg_,bool autorec_);
+
+    void setInputToPipe();
+
+    void setOutputToPipe();
     
     void execute();
     
