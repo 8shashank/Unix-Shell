@@ -20,12 +20,7 @@ autorec(autorec_),processName(processName_)
 {
 }
 
-void StartProcessCommand::execute(){
-
-//Use semaphore to make sure parent called first
-	std::string semName=std::string("/sem")+processName;
-	sem_t *sem = sem_open(semName, O_CREAT, 0644, 0);
-    
+void StartProcessCommand::execute(){    
     struct sigaction sig_a;
     sig_a.sa_handler = &sig_handler;
     sigemptyset(&sig_a.sa_mask);
@@ -34,7 +29,14 @@ void StartProcessCommand::execute(){
         std::cout<<"Signal handler failed."<<std::endl;
     }
 
-	int rc=fork();
+    sigset_t mask;
+    sigemptyset(&mask);
+    sigaddset(&mask,SIGCHLD);
+    if (sigprocmask(SIG_SETMASK,&mask,NULL)==-1){
+        std::cout<<"Blocking SIGCHLD failed"<<std::endl;
+    }
+
+        int rc=fork();
         if (rc<0){
             fprintf(stderr,"Fork failed\n");
         }else if (rc==0){
@@ -54,9 +56,10 @@ void StartProcessCommand::execute(){
         	auto sp1=make_shared<Process>(processName,parsedargs,bg,autorec);
         	 Shell* s=Shell::instance()
         	 s->addProcess(rc,sp1);
+        if (sigprocmask(SIG_UNBLOCK,&mask,NULL)==-1){
+        std::cout<<"Unblocking SIGCHLD failed"<<std::endl;
+        }
 
-        	 //Now child process can execute
-        	sem_post(sem);
         	if (!bg){
             		CheckWait::waitForExit(rc);
             	}            
@@ -121,13 +124,6 @@ void StartProcessCommand::sig_handler(int sig){
                 }
             }
             
-        }
-        
-        
+        }        
     }while(pid!=0)
-    
-    
-    
-    
-    
 }
