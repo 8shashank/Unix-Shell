@@ -46,6 +46,7 @@ void Shell::loop(){
 	std::string input;
 	std::string n;
 	std::vector<std::string> args;
+	std::cout>>"#: ";
 	std::getline (std::cin,input);
 	while (input!="exit"){
 		args=p.parse(input);
@@ -53,13 +54,13 @@ void Shell::loop(){
 		Command cmd=factory.makeCommand(args);
 		cmd.execute();
 
+		std::cout>>"#: ";
+
 		std::cin.clear();
 		std::getline (std::cin,input);
 	}
 };
 
-std::string getInput()
-
-Shell::Shell():factory(),continue(true){
+Shell::Shell():factory(){
 	setCurrentDirectory();
 }
