@@ -42,16 +42,25 @@ Shell *Shell::instance(){
 }
 
 void Shell::loop(){
+	Parser p;
 	std::string input;
-	do
-	{
-		Command cmd=factory.makeCommand(input);
+	std::string n;
+	std::vector<std::string> args;
+	std::cout>>"#: ";
+	std::getline (std::cin,input);
+	while (input!="exit"){
+		args=p.parse(input);
+
+		Command cmd=factory.makeCommand(args);
 		cmd.execute();
-	} while(continue);
-}
 
-std::string getInput()
+		std::cout>>"#: ";
 
-Shell::Shell():factory(),continue(true){
+		std::cin.clear();
+		std::getline (std::cin,input);
+	}
+};
+
+Shell::Shell():factory(){
 	setCurrentDirectory();
 }
