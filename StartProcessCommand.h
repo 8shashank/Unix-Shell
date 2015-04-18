@@ -4,12 +4,15 @@
 #include "Typedefs.h"
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <signal.h>
+#include <stdlib.h>
+
 
 class StartProcessCommand{
     
 public:
     StartProcessCommand(v_Iterator begin,v_Iterator end,bool backgroundProcess);
-    StartProcessCommand(std::vector<std::string> args,bool bg_,bool autorec_);
+    StartProcessCommand(std::string processName_,std::vector<std::string> args,bool bg_,bool autorec_);
     
     void execute();
     

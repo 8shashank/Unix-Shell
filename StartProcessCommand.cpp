@@ -24,7 +24,15 @@ void StartProcessCommand::execute(){
 
 //Use semaphore to make sure parent called first
 	std::string semName=std::string("/sem")+processName;
-	sem_t *sem = sem_open(semName, O_CREAT, 0644, 0); 
+	sem_t *sem = sem_open(semName, O_CREAT, 0644, 0);
+    
+    struct sigaction sig_a;
+    sig_a.sa_handler = &sig_handler;
+    sigemptyset(&sig_a.sa_mask);
+    sig_a.sa_flags = SA_RESTART | SA_NOCLDSTOP;
+    if (sigaction(SIGCHLD, &sig_a, 0) == -1) {
+        std::cout<<"Signal handler failed."<<std::endl;
+    }
 
 	int rc=fork();
         if (rc<0){
@@ -95,20 +103,21 @@ void StartProcessCommand::sig_handler(int sig){
                     s->set_state("Exited");
                     
                     if (WEXITSTATUS(status)==0){
-                        std::cout<<"Child "<<pid<<" exited successfully";
+                        std::cout<<"Child "<<pid<<" exited successfully"<<std::endl;
                     }
                     else{
-                        std::cout<<"Child "<<pid<<" did not exit successfully.";
+                        std::cout<<"Child "<<pid<<" did not exit successfully."<<std::endl;
                     }
                 }
                 else if (WIFSIGNALED(status)){
                     int terminated_sig = WTERMSIG(status);
                     s->set_signal(terminated_sig);
-                    std::cout<<"Child "<<pid<<" terminated by signal "<<terminated_sig;
+                    std::cout<<"Child "<<pid<<" terminated by signal "<<terminated_sig<<std::endl;
                 }
             
                 if (s->isAutoRecovery()) {
-                    StartProcessCommand RecCommand()
+                    StartProcessCommand RecCommand(s->get_name(),s->get_args(),s->isBg(),s->isAutoRecovery());
+                    RecCommand.execute();
                 }
             }
             

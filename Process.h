@@ -22,15 +22,18 @@ public:
     void set_state(std::string state);
     void set_signal(int sig);
     int get_signal();
+    std::string get_name();
+    std::vector<std::string> get_args();
     bool isBg();
     bool isAutoRecovery();
     
 private:
-    bool autorec;
+    std::string processName;
+    std::vector<std::string> parsedArgs;
     bool bg;
-    std::string state;
-     std::vector<std::string> parsedArgs;
+    bool autorec;
     int signal;
+    std::string state;
 };
 
 #include "Process.cpp"

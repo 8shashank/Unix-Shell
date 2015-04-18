@@ -1,5 +1,5 @@
 Process::Process(std::string pName, std::vector<std::string> args, bool bg_, bool autorec_):
-processName(pName),parsedArgs(args),bg(bg_),autorec(autorec_),signal(-1){};
+processName(pName),parsedArgs(args),bg(bg_),autorec(autorec_),signal(-1),state("Running"){};
 
 std::string Process::get_state(){
 	return state;
@@ -15,6 +15,14 @@ int Process::get_signal(){
 
 void Process::set_signal(int sig){
 	signal=sig;
+}
+
+std::string Process::get_name(){
+    return processName;
+}
+
+std::vector<std::string> Process::get_args(){
+    return parsedArgs;
 }
 
 bool Process::isAutoRecovery(){
