@@ -1,8 +1,15 @@
 #ifndef SHELL_H
 #define SHELL_H
 #include <unordered_map>
-#include <iostream>
+#include <string>
+#include <sstream>
+#include <algorithm>
+#include <iterator>
+#include <vector>
 #include "Process.h"
+#include "CommandFactory.h"
+#include "Parser.cpp"
+
 
 /*Singleton class that holds the Shell */
 class Shell{
@@ -27,7 +34,8 @@ private:
  private:
   	std::string currDir;
   	std::unordered_map<int,Process> processMap;
-
+  	CommandFactory factory;
+  	bool continue;
 };
 #include "Shell.cpp"
 

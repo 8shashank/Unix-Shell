@@ -8,7 +8,6 @@
 
 int main(){
 	//get current working directory
-    std::string cur=getCurrentDirectory();
-	Shell shell(cur);
+	Shell shell();
 	shell.loop();
 }

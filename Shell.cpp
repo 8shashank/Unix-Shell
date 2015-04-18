@@ -42,9 +42,16 @@ Shell *Shell::instance(){
 }
 
 void Shell::loop(){
-
+	std::string input;
+	do
+	{
+		Command cmd=factory.makeCommand(input);
+		cmd.execute();
+	} while(continue);
 }
 
-Shell::Shell(std::string dir){
+std::string getInput()
+
+Shell::Shell():factory(),continue(true){
 	setCurrentDirectory();
 }
