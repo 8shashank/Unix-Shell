@@ -4,11 +4,11 @@ Shell::~Shell(){
 
 }
 
-std::string getCurrentDirectory(){
+std::string Shell::getCurrentDirectory(){
 	return currDir;
 }
 
-void changeCurrentDirectory(std::string fname){
+void Shell::changeCurrentDirectory(std::string fname){
 	if (fname.length>PATH_MAX){
 		throw std::runtime_error("Path is longer than maximum allowed size.");
 	}
@@ -26,16 +26,16 @@ void changeCurrentDirectory(std::string fname){
 	setCurrentDirectory();
 }
 
-void addProcess(int pid,Process process){
+void Shell::addProcess(int pid,Process process){
 	processMap.insert (std::make_pair<int,shared_ptr<Process>>(pid,process));
 }
 
-Process& getProcess(int pid){
+Process& Shell::getProcess(int pid){
     return processMap[pid];
 }
 
 /*Retrieve the value of current directory from OS and store it */
-std::string setCurrentDirectory(){
+void Shell::setCurrentDirectory(){
    char cwd[PATH_MAX];
    if (getcwd(cwd, sizeof(cwd)) == NULL){
        throw std::runtime_error ("Can't get current working directory.");
@@ -43,7 +43,7 @@ std::string setCurrentDirectory(){
     currDir=std::string(cwd);
 }
 
-Shell *Shell::instance(){
+Shell* Shell::instance(){
     if (instance_==nullptr){
         instance_=new Shell();
     }
@@ -55,7 +55,7 @@ void Shell::loop(){
 	std::string input;
 	std::string n;
 	std::vector<std::string> args;
-	std::cout>>"#: ";
+	std::cout<<"#: ";
 	std::getline (std::cin,input);
 	while (input!="exit"){
 		args=p.parse(input);
@@ -63,7 +63,7 @@ void Shell::loop(){
 		Command cmd=factory.makeCommand(args);
 		cmd.execute();
 
-		std::cout>>"#: ";
+		std::cout<<"#: ";
 
 		std::cin.clear();
 		std::getline (std::cin,input);

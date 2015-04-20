@@ -29,11 +29,11 @@ private:
 	Shell();
 	Shell(Shell &s)=delete;
 	void operator=(Shell &s)=delete;
-	std::string setCurrentDirectory();
+	void setCurrentDirectory();
 
 
 private:
-	static Shell *instance;
+	static Shell *instance_;
 
  private:
   	std::string currDir;

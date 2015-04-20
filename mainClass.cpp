@@ -8,6 +8,5 @@
 
 int main(){
 	//get current working directory
-	Shell shell();
-	shell.loop();
+        Shell::instance()->loop();
 }

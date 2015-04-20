@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 //
 //  Process.h
 //  281Project
