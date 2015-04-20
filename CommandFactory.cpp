@@ -1,3 +1,5 @@
+#include "CommandFactory.h"
+
 CommandFactory::CommandFactory(){};
 
 Command* makeCommand(str_vect_itr begin,str_vect_itr end){

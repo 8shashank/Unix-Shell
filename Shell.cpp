@@ -1,3 +1,5 @@
+#include "Shell.h"
+
 Shell *Shell::instance_=nullptr;
 
 Shell::~Shell(){

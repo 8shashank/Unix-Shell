@@ -1,3 +1,5 @@
+#include "Process.h"
+
 Process::Process(std::string pName, std::vector<std::string> args, bool bg_, bool autorec_):
 processName(pName),parsedArgs(args),bg(bg_),autorec(autorec_),signal(-1),state("Running"){};
 

@@ -1,3 +1,5 @@
+#include "StartProcessCommand.h"
+
 StartProcessCommand(v_Iterator begin,v_Iterator end):bg(false),autorec(false){
 	processName=*begin;
 	v_Iterator iter=begin+1;

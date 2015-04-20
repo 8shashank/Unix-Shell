@@ -73,7 +73,7 @@ std::vector<std::string> Parser::parse(std::string str){
 			}
 			else if (c==pipeOperator || c==redirectInputOperator || c==redirectInputOperator
 			|| c==backgroundJobOperator){
-				if (curr.length!=0){
+			        if (curr.length()!=0){
 					args.push_back(std::move(curr));
 					curr="";
 				}

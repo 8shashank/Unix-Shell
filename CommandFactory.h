@@ -1,3 +1,5 @@
+#ifndef COMMANDFACTORY_H
+#define COMMANDFACTORY_H
 
 #include "Typedefs.h"
 #include <iostream>
@@ -16,4 +18,4 @@ public:
   
 };
 
-
+#endif

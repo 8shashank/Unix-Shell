@@ -36,5 +36,4 @@ private:
     std::string state;
 };
 
-#include "Process.cpp"
 #endif

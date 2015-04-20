@@ -6,13 +6,17 @@ CMakeFiles/mainClass.dir/CdCommand.cpp.o: CdCommand.h
 CMakeFiles/mainClass.dir/CdCommand.cpp.o: Command.h
 CMakeFiles/mainClass.dir/CdCommand.cpp.o: CommandFactory.h
 CMakeFiles/mainClass.dir/CdCommand.cpp.o: Parser.cpp
-CMakeFiles/mainClass.dir/CdCommand.cpp.o: Process.cpp
 CMakeFiles/mainClass.dir/CdCommand.cpp.o: Process.h
-CMakeFiles/mainClass.dir/CdCommand.cpp.o: Shell.cpp
 CMakeFiles/mainClass.dir/CdCommand.cpp.o: Shell.h
 CMakeFiles/mainClass.dir/CdCommand.cpp.o: Typedefs.h
 
+CMakeFiles/mainClass.dir/CommandFactory.cpp.o: Command.h
 CMakeFiles/mainClass.dir/CommandFactory.cpp.o: CommandFactory.cpp
+CMakeFiles/mainClass.dir/CommandFactory.cpp.o: CommandFactory.h
+CMakeFiles/mainClass.dir/CommandFactory.cpp.o: Parser.cpp
+CMakeFiles/mainClass.dir/CommandFactory.cpp.o: Process.h
+CMakeFiles/mainClass.dir/CommandFactory.cpp.o: Shell.h
+CMakeFiles/mainClass.dir/CommandFactory.cpp.o: Typedefs.h
 
 CMakeFiles/mainClass.dir/Exceptions.cpp.o: Exceptions.cpp
 
@@ -21,17 +25,24 @@ CMakeFiles/mainClass.dir/Parser.cpp.o: Parser.cpp
 CMakeFiles/mainClass.dir/PipeCommand.cpp.o: PipeCommand.cpp
 
 CMakeFiles/mainClass.dir/Process.cpp.o: Process.cpp
+CMakeFiles/mainClass.dir/Process.cpp.o: Process.h
 
+CMakeFiles/mainClass.dir/Shell.cpp.o: Command.h
+CMakeFiles/mainClass.dir/Shell.cpp.o: CommandFactory.h
+CMakeFiles/mainClass.dir/Shell.cpp.o: Parser.cpp
+CMakeFiles/mainClass.dir/Shell.cpp.o: Process.h
 CMakeFiles/mainClass.dir/Shell.cpp.o: Shell.cpp
+CMakeFiles/mainClass.dir/Shell.cpp.o: Shell.h
+CMakeFiles/mainClass.dir/Shell.cpp.o: Typedefs.h
 
 CMakeFiles/mainClass.dir/StartProcessCommand.cpp.o: StartProcessCommand.cpp
+CMakeFiles/mainClass.dir/StartProcessCommand.cpp.o: StartProcessCommand.h
+CMakeFiles/mainClass.dir/StartProcessCommand.cpp.o: Typedefs.h
 
 CMakeFiles/mainClass.dir/mainClass.cpp.o: Command.h
 CMakeFiles/mainClass.dir/mainClass.cpp.o: CommandFactory.h
 CMakeFiles/mainClass.dir/mainClass.cpp.o: Parser.cpp
-CMakeFiles/mainClass.dir/mainClass.cpp.o: Process.cpp
 CMakeFiles/mainClass.dir/mainClass.cpp.o: Process.h
-CMakeFiles/mainClass.dir/mainClass.cpp.o: Shell.cpp
 CMakeFiles/mainClass.dir/mainClass.cpp.o: Shell.h
 CMakeFiles/mainClass.dir/mainClass.cpp.o: Typedefs.h
 CMakeFiles/mainClass.dir/mainClass.cpp.o: mainClass.cpp

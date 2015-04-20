@@ -1,5 +1,6 @@
 #ifndef SHELL_H
 #define SHELL_H
+
 #include <unordered_map>
 #include <string>
 #include <sstream>
@@ -39,8 +40,7 @@ private:
   	std::string currDir;
   	std::unordered_map<int,shared_ptr<Process>> processMap;
   	CommandFactory factory;
-  	bool continue;
+  	//bool continue;
 };
-#include "Shell.cpp"
 
 #endif
