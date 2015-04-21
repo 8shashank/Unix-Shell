@@ -2,7 +2,8 @@
 
 CommandFactory::CommandFactory(){};
 
-Command *CommandFactory::makeCommand(v_Iterator begin,v_Iterator end){
+Command *
+CommandFactory::makeCommand(v_Iterator begin,v_Iterator end){
 	bool backgroundProcess=false,autorecovery=false;
 	/*
 	for(auto i=begin;i!=end;i++){

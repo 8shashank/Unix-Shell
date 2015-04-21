@@ -9,5 +9,4 @@ public:
 
     virtual void execute();
 };
-#include "Command.cpp"
 #endif

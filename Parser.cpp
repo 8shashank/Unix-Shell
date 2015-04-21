@@ -1,3 +1,5 @@
+#include "Parser.h"
+
 Parser::Parser():
 	delim(' ')
 	,pipeOperator('|')

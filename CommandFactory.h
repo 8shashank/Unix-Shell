@@ -2,15 +2,17 @@
 #define COMMANDFACTORY_H
 #include <iostream>
 #include <string>
-#include "Typedefs.h"
+#include <memory>
+#include <vector>
 #include "Command.h"
+#include "Shell.h"
 #include "CdCommand.h"
 #include "StartProcessCommand.h"
 #include "Parser.h"
 
 class Shell;
-class CdCommand;
-class StartProcessCommand;
+typedef std::vector<std::string> string_vector;
+typedef std::vector<std::string>::iterator v_Iterator;
 class CommandFactory{
     
 public:
@@ -20,5 +22,4 @@ public:
     
   
 };
-#include "CommandFactory.cpp"
 #endif

@@ -1,3 +1,5 @@
+#include "CdCommand.h"
+
 CdCommand::CdCommand(v_Iterator begin,v_Iterator end)
 {
 	directory=*(begin+1);

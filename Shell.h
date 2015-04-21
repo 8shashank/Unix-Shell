@@ -1,6 +1,10 @@
 #ifndef SHELL_H
 #define SHELL_H
 
+#include <unistd.h>
+#include <stdexcept>
+#include <iostream>
+#include <linux/limits.h>
 #include <unordered_map>
 #include <string>
 #include <memory>
@@ -11,6 +15,7 @@
 #include <vector>
 #include "Process.h"
 #include "Parser.h"
+#include "CommandFactory.h"
 
 class Process;
 class CommandFactory;
@@ -47,6 +52,4 @@ private:
   	//bool continue;
 };
 
-#include "CommandFactory.h"
-#include "Shell.cpp"
 #endif

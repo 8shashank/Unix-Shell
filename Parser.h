@@ -22,5 +22,4 @@ private:
 	char doubleQuoteCharacter;
 	char backgroundJobOperator;
 };
-#include "Parser.cpp"
 #endif

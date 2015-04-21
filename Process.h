@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <signal.h>
+#include <vector>
 
 class Process{
     
@@ -27,5 +28,4 @@ private:
     std::string state;
 };
 
-#include "Process.cpp"
 #endif

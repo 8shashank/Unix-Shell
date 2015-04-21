@@ -1,6 +1,7 @@
 #ifndef EXCEPTIONS_H
 #define EXCEPTIONS_H
 #include <exception>
+#include <string>
 namespace Exceptions{
 class ParserException : public std::exception
 {
@@ -12,5 +13,4 @@ private:
 	std::string msg;
 };
 };
-#include "Exceptions.cpp"
 #endif

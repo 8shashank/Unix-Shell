@@ -1,13 +1,20 @@
 #ifndef START_PROCESS_COMMAND
 #define START_PROCESS_COMMAND
 
-#include "Typedefs.h"
-#include "Process.h"
+#include <memory>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
 #include <stdlib.h>
+#include <vector>
+#include "Command.h"
+#include <unistd.h>
+//#include "Typedefs.h"
+#include "Process.h"
+#include "Shell.h"
 
+typedef std::vector<std::string> string_vector;
+typedef std::vector<std::string>::iterator v_Iterator;
 class StartProcessCommand: public Command{
     
 public:
@@ -31,5 +38,4 @@ private:
     bool autorec;
 };
 
-#include "StartProcessCommand.cpp"
 #endif
