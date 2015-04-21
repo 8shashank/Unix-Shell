@@ -1,6 +1,4 @@
-#include "StartProcessCommand.h"
-
-StartProcessCommand(v_Iterator begin,v_Iterator end):bg(false),autorec(false){
+StartProcessCommand::StartProcessCommand(v_Iterator begin,v_Iterator end,bool backgroundProcess,bool autorecovery):bg(backgroundProcess),autorec(autorecovery){
 	processName=*begin;
 	v_Iterator iter=begin+1;
 	while(iter!=end){
@@ -17,10 +15,12 @@ StartProcessCommand(v_Iterator begin,v_Iterator end):bg(false),autorec(false){
 	}
 }
 
-StartProcessCommand(processName_,std::vector<std::string> args,bool bg_,bool autorec_):parsedargs(args),bg(bg_),
+StartProcessCommand::StartProcessCommand(std::string processName_,std::vector<std::string> args,bool bg_,bool autorec_):parsedargs(args),bg(bg_),
 autorec(autorec_),processName(processName_)
 {
 }
+
+StartProcessCommand::~StartProcessCommand(){}
 
 void StartProcessCommand::setInputToPipe(int i){}
 
@@ -28,7 +28,7 @@ void StartProcessCommand::setOutputToPipe(int o){}
 
 void StartProcessCommand::execute(){    
     struct sigaction sig_a;
-    sig_a.sa_handler = &sig_handler;
+    sig_a.sa_handler = &StartProcessCommand::sig_handler;
     sigemptyset(&sig_a.sa_mask);
     sig_a.sa_flags = SA_RESTART | SA_NOCLDSTOP;
     if (sigaction(SIGCHLD, &sig_a, 0) == -1) {
@@ -46,28 +46,24 @@ void StartProcessCommand::execute(){
         if (rc<0){
             fprintf(stderr,"Fork failed\n");
         }else if (rc==0){
-
-        	sem_t *sem = sem_open(semName, 0);
-        	sem_wait(sem);
-
-        	int size=parsedargs.length();
+        	int size=parsedargs.size();
             char *myargs[size+1];
             for (int i=0;i<size;i++){
-            		myargs[i]=strdup(parsedargs[i]);
+            		myargs[i]=const_cast<char*>(parsedargs[i].c_str());
             }
             myargs[size]=NULL;
-            execvp(strdup(processName),myargs);
+            char* pName=const_cast<char*>(processName.c_str());
+            execvp(pName,myargs);
         }
         else{
-        	auto sp1=make_shared<Process>(processName,parsedargs,bg,autorec);
-        	 Shell* s=Shell::instance()
-        	 s->addProcess(rc,sp1);
+        	auto sp1=std::make_shared<Process>(processName,parsedargs,bg,autorec);
+        	 Shell::instance()->addProcess(rc,sp1);
         if (sigprocmask(SIG_UNBLOCK,&mask,NULL)==-1){
         std::cout<<"Unblocking SIGCHLD failed"<<std::endl;
         }
 
         	if (!bg){
-            		CheckWait::waitForExit(rc);
+            		waitForExit(rc);
             	}            
         }
 
@@ -102,13 +98,13 @@ void StartProcessCommand::sig_handler(int sig){
         pid = waitpid(-1,&status,WNOHANG);
         if (pid != 0){
             
-            Process* deadProcess;
+            std::shared_ptr<Process> deadProcess;
             Shell *s = Shell::instance();
             deadProcess = s->getProcess(pid);
             
             if (deadProcess->isBg()){
                 if (WIFEXITED(status)){
-                    s->set_state("Exited");
+                    deadProcess->set_state("Exited");
                     
                     if (WEXITSTATUS(status)==0){
                         std::cout<<"Child "<<pid<<" exited successfully"<<std::endl;
@@ -119,16 +115,16 @@ void StartProcessCommand::sig_handler(int sig){
                 }
                 else if (WIFSIGNALED(status)){
                     int terminated_sig = WTERMSIG(status);
-                    s->set_signal(terminated_sig);
+                    deadProcess->set_signal(terminated_sig);
                     std::cout<<"Child "<<pid<<" terminated by signal "<<terminated_sig<<std::endl;
                 }
             
-                if (s->isAutoRecovery()) {
-                    StartProcessCommand RecCommand(s->get_name(),s->get_args(),s->isBg(),s->isAutoRecovery());
+                if (deadProcess->isAutoRecovery()) {
+                    StartProcessCommand RecCommand(deadProcess->get_name(),deadProcess->get_args(),deadProcess->isBg(),deadProcess->isAutoRecovery());
                     RecCommand.execute();
                 }
             }
             
         }        
-    }while(pid!=0)
+    }while(pid!=0);
 }

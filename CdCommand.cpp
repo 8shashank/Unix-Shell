@@ -1,19 +1,11 @@
-//
-//  CdCommand.cpp
-//  281Project
-//
-//  Created by Arthur Yingpeng Chu on 4/3/15.
-//  Copyright (c) 2015 Vanderbilt University. All rights reserved.
-//
-
-#include "CdCommand.h"
-#include <string>
-
-CdCommand::CdCommand(std::string dir):directory(dir)
+CdCommand::CdCommand(v_Iterator begin,v_Iterator end)
 {
+	directory=*(begin+1);
 }
 
 void CdCommand::execute(){
-    Shell* s=Shell::instance()
+    Shell* s=Shell::instance();
     s->changeCurrentDirectory(directory);  //change current dir of main shell
 }
+
+CdCommand::~CdCommand(){}

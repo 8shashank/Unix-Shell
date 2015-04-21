@@ -1,21 +1,24 @@
 #ifndef COMMANDFACTORY_H
 #define COMMANDFACTORY_H
-
-#include "Typedefs.h"
 #include <iostream>
 #include <string>
+#include "Typedefs.h"
 #include "Command.h"
-#include "Parser.cpp"
-#include "Shell.h"
+#include "CdCommand.h"
+#include "StartProcessCommand.h"
+#include "Parser.h"
 
+class Shell;
+class CdCommand;
+class StartProcessCommand;
 class CommandFactory{
     
 public:
     CommandFactory();
     
-    Command *makeCommand(std::vector<std::string> &args);
+    Command *makeCommand(std::vector<std::string>::iterator begin,std::vector<std::string>::iterator end);
     
   
 };
-
+#include "CommandFactory.cpp"
 #endif

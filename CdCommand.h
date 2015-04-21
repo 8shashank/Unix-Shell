@@ -2,19 +2,20 @@
 #define CD_COMMAND_H
 
 #include <string>
-#include "Shell.h"
+#include "Typedefs.h"
 #include "Command.h"
 
+class Shell;
 class CdCommand:public Command
-
 {
 public:
-    CdCommand(string dir);
+    CdCommand(v_Iterator begin,v_Iterator end);
     
-    void execute():
+    void execute();
     
+    ~CdCommand();
 private:
-    string directory;
+    std::string directory;
 };
-
+#include "CdCommand.cpp"
 #endif

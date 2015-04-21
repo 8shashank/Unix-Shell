@@ -1,11 +1,15 @@
-#include "Process.h"
-
 Process::Process(std::string pName, std::vector<std::string> args, bool bg_, bool autorec_):
 processName(pName),parsedArgs(args),bg(bg_),autorec(autorec_),signal(-1),state("Running"){};
 
 std::string Process::get_state(){
 	return state;
 }
+
+/*
+Process::Process(Process &p):
+processName(p.processName),parsedArgs(p.parsedArgs),bg(p.bg),autorec(p.autorec),signal(p.signal),state(p.state)
+{}*/
+
 
 void Process::set_state(std::string state_){
 	state=state_;
@@ -32,5 +36,5 @@ bool Process::isAutoRecovery(){
 }
 
 bool Process::isBg(){
-    return bg_;
+    return bg;
 }

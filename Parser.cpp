@@ -1,25 +1,3 @@
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <algorithm>
-#include <iterator>
-
-class Parser{
-public:
-Parser();
-std::vector<std::string> parse(std::string);
-
-private:
-	char delim;
-	char pipeOperator;
-	char redirectOutputOperator;
-	char redirectInputOperator;
-	char escapeCharacter;
-	char singleQuoteCharacter;
-	char doubleQuoteCharacter;
-	char backgroundJobOperator;
-};
-
 Parser::Parser():
 	delim(' ')
 	,pipeOperator('|')
@@ -77,7 +55,7 @@ std::vector<std::string> Parser::parse(std::string str){
 					args.push_back(std::move(curr));
 					curr="";
 				}
-				args.push_back(std::string(c));
+				args.push_back(std::string(1,c));
 			}
 			else if (c==delim && !insideQuotes){
 				if (curr.length()!=0 ){
@@ -93,10 +71,10 @@ std::vector<std::string> Parser::parse(std::string str){
 		escaped=((c=='\\') && !escaped);
 	}
 	if (escaped){
-		throw Shell::ParserException("Last character cannot act as escape character");
+		throw Exceptions::ParserException("Last character cannot act as escape character");
 	}
 	if (insideQuotes){
-		throw Shell::ParserException("Quotes not closed");
+		throw Exceptions::ParserException("Quotes not closed");
 	}
 	args.push_back(std::move(curr));
 	return args;

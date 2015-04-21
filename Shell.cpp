@@ -1,5 +1,3 @@
-#include "Shell.h"
-
 Shell *Shell::instance_=nullptr;
 
 Shell::~Shell(){
@@ -11,12 +9,12 @@ std::string Shell::getCurrentDirectory(){
 }
 
 void Shell::changeCurrentDirectory(std::string fname){
-	if (fname.length>PATH_MAX){
+	if (fname.length()>PATH_MAX-1){
 		throw std::runtime_error("Path is longer than maximum allowed size.");
 	}
 
-	const char path[PATH_MAX];
-	strncpy(fname, path.c_str(), sizeof(fname));
+	char path[PATH_MAX];
+	strncpy(path, fname.c_str(), PATH_MAX - 1);
 
 	int ret=chdir(path);
 	if (ret==0){
@@ -28,11 +26,11 @@ void Shell::changeCurrentDirectory(std::string fname){
 	setCurrentDirectory();
 }
 
-void Shell::addProcess(int pid,Process process){
-	processMap.insert (std::make_pair<int,shared_ptr<Process>>(pid,process));
+void Shell::addProcess(int pid,std::shared_ptr<Process> process){
+	processMap.emplace(int(pid),process);
 }
 
-Process& Shell::getProcess(int pid){
+std::shared_ptr<Process> Shell::getProcess(int pid){
     return processMap[pid];
 }
 
@@ -52,6 +50,11 @@ Shell* Shell::instance(){
     return instance_;
 }
 
+Shell::Shell(){
+	factory=new CommandFactory();
+	setCurrentDirectory();
+}
+
 void Shell::loop(){
 	Parser p;
 	std::string input;
@@ -62,16 +65,11 @@ void Shell::loop(){
 	while (input!="exit"){
 		args=p.parse(input);
 
-		Command cmd=factory.makeCommand(args);
-		cmd.execute();
-
+		Command *cmd=factory->makeCommand(args.begin(),args.end());
+		cmd->execute();
 		std::cout<<"#: ";
 
 		std::cin.clear();
 		std::getline (std::cin,input);
 	}
 };
-
-Shell::Shell():factory(){
-	setCurrentDirectory();
-}
