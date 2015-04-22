@@ -78,7 +78,10 @@ void StartProcessCommand::execute(){
 
 void StartProcessCommand::waitForExit(int rc){
   //bool exitedCorrectly=false;
-	// while(!exitedCorrectly){
+	// while(!exitedCorrectly){ //i got ride of the while loop.seems like it is 
+                                    //calling a blocking waitpid here for foreground
+                                    // process so should not need a while loop
+
             int status;
             int wc=waitpid(rc,&status,0);
             if (wc<0){
