@@ -33,6 +33,7 @@ void Shell::addProcess(int pid,std::shared_ptr<Process> process){
 }
 
 std::shared_ptr<Process> Shell::getProcess(int pid){
+	std::cout<<"Trying to get process for pid "<<pid<<std::endl;
     return processMap[pid];
 }
 
@@ -66,6 +67,9 @@ void Shell::loop(){
 	std::getline (std::cin,input);
 	while (input!="exit"){
 		args=p.parse(input);
+		for(auto i=args.begin();i<args.end();i++){
+			std::cout<<*i<<std::endl;
+		}
 
 		Command *cmd=factory->makeCommand(args.begin(),args.end());
 		cmd->execute();

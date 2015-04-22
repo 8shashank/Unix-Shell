@@ -1,5 +1,5 @@
 #include "StartProcessCommand.h"
-
+#include <errno.h>
 StartProcessCommand::StartProcessCommand(v_Iterator begin,v_Iterator end,bool backgroundProcess,bool autorecovery):bg(backgroundProcess),autorec(autorecovery){
 	processName=*begin;
 	v_Iterator iter=begin+1;
@@ -40,22 +40,27 @@ void StartProcessCommand::execute(){
     sigset_t mask;
     sigemptyset(&mask);
     sigaddset(&mask,SIGCHLD);
-    if (sigprocmask(SIG_SETMASK,&mask,NULL)==-1){
+    if (sigprocmask(SIG_BLOCK,&mask,NULL)==-1){
         std::cout<<"Blocking SIGCHLD failed"<<std::endl;
     }
-
+        std::cout<<"About to fork process "<<processName<< "as " << getpid() <<std::endl;
         int rc=fork();
         if (rc<0){
             fprintf(stderr,"Fork failed\n");
         }else if (rc==0){
         	int size=parsedargs.size();
-            char *myargs[size+1];
-            for (int i=0;i<size;i++){
+            char *myargs[size+2];
+            for (int i=1;i<size;i++){
             		myargs[i]=const_cast<char*>(parsedargs[i].c_str());
             }
-            myargs[size]=NULL;
+            myargs[size+1]=NULL;
             char* pName=const_cast<char*>(processName.c_str());
+            myargs[0]=pName;
+            std::cerr<<"About to execute process ";
+            std::cerr<<pName;
             execvp(pName,myargs);
+            std::cerr << "exec failed\n";
+            std::quick_exit(-1);
         }
         else{
         	auto sp1=std::make_shared<Process>(processName,parsedargs,bg,autorec);
@@ -65,7 +70,7 @@ void StartProcessCommand::execute(){
         }
 
         	if (!bg){
-            		waitForExit(rc);
+            		//waitForExit(rc);
             	}            
         }
 
@@ -96,9 +101,15 @@ void StartProcessCommand::waitForExit(int rc){
 void StartProcessCommand::sig_handler(int sig){
     int pid = 0;
     int status;
+    std::cout<<"I'm in signal handler"<<std::endl;
     do{
         pid = waitpid(-1,&status,WNOHANG);
-        if (pid != 0){
+        //std::cout<<pid<<std::endl;
+        if (pid==-1){
+            std::cout<<getpid() << sig << ' ' << strerror(errno)<<std::endl;
+            return;
+        }
+        if (pid != -1){
             
             std::shared_ptr<Process> deadProcess;
             Shell *s = Shell::instance();
