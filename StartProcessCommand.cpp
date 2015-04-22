@@ -90,11 +90,17 @@ void StartProcessCommand::waitForExit(int rc){
             if (WIFEXITED(status)){
                 if (WEXITSTATUS(status)==0){
 		  // exitedCorrectly=true;
+		  std::cout<<"foreground process exited correctly."<<"\n";
                 }
                 else{
+                   std::cout<<"exit status: "+WEXITSTATUS(status)<<"\n";
+		  std::cout<<"foreground process exited incorrectly."<<"\n";
+		 
                     throw std::runtime_error("Child did not exit successfully.");
                 }
             }else if (WIFSIGNALED(status)){
+
+	      std::cout<<"Child process terminated by signal "+WTERMSIG(status);
                 throw std::runtime_error("Child process terminated by signal "+WTERMSIG(status));
             }  
             //If none of above true, child was either stopped or continued. Wait for termination.

@@ -26,6 +26,7 @@ void Shell::changeCurrentDirectory(std::string fname){
 		throw std::runtime_error("Could not change directory, received error "+ret);
 	}
 	setCurrentDirectory();
+	std::cout<<"Current shell directory: "<<getCurrentDirectory()<<"\n";
 }
 
 void Shell::addProcess(int pid,std::shared_ptr<Process> process){
@@ -56,6 +57,7 @@ Shell* Shell::instance(){
 Shell::Shell(){
 	factory=new CommandFactory();
 	setCurrentDirectory();
+	std::cout<<"Current shell directory: "<<getCurrentDirectory()<<"\n";
 }
 
 void Shell::loop(){
