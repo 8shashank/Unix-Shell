@@ -43,7 +43,7 @@ void StartProcessCommand::execute(){
     if (sigprocmask(SIG_BLOCK,&mask,NULL)==-1){
         std::cout<<"Blocking SIGCHLD failed"<<std::endl;
     }
-        std::cout<<"About to fork process "<<processName<< "as " << getpid() <<std::endl;
+        std::cout<<"About to fork process "<<processName<< "as " << getpid() <<"\n";
         int rc=fork();
         if (rc<0){
             fprintf(stderr,"Fork failed\n");
@@ -70,15 +70,15 @@ void StartProcessCommand::execute(){
         }
 
         	if (!bg){
-            		//waitForExit(rc);
+            		waitForExit(rc);
             	}            
         }
 
 }
 
 void StartProcessCommand::waitForExit(int rc){
-        bool exitedCorrectly=false;
-        while(!exitedCorrectly){
+  //bool exitedCorrectly=false;
+	// while(!exitedCorrectly){
             int status;
             int wc=waitpid(rc,&status,0);
             if (wc<0){
@@ -86,7 +86,7 @@ void StartProcessCommand::waitForExit(int rc){
             }
             if (WIFEXITED(status)){
                 if (WEXITSTATUS(status)==0){
-                    exitedCorrectly=true;
+		  // exitedCorrectly=true;
                 }
                 else{
                     throw std::runtime_error("Child did not exit successfully.");
@@ -95,7 +95,7 @@ void StartProcessCommand::waitForExit(int rc){
                 throw std::runtime_error("Child process terminated by signal "+WTERMSIG(status));
             }  
             //If none of above true, child was either stopped or continued. Wait for termination.
-        }
+	    // }
     }
 
 void StartProcessCommand::sig_handler(int sig){
