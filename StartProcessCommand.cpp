@@ -43,21 +43,21 @@ void StartProcessCommand::execute(){
     if (sigprocmask(SIG_BLOCK,&mask,NULL)==-1){
         std::cout<<"Blocking SIGCHLD failed"<<std::endl;
     }
-        std::cout<<"About to fork process "<<processName<< "as " << getpid() <<"\n";
+        std::cout<<"About to fork process "<<processName<< " as " << getpid() <<"\n";
         int rc=fork();
         if (rc<0){
             fprintf(stderr,"Fork failed\n");
         }else if (rc==0){
         	int size=parsedargs.size();
             char *myargs[size+2];
-            for (int i=1;i<size;i++){
-            		myargs[i]=const_cast<char*>(parsedargs[i].c_str());
+            for (int i=0;i<size;i++){
+            		myargs[i+1]=const_cast<char*>(parsedargs[i].c_str());
             }
             myargs[size+1]=NULL;
             char* pName=const_cast<char*>(processName.c_str());
             myargs[0]=pName;
-            std::cerr<<"About to execute process ";
-            std::cerr<<pName;
+            //std::cerr<<"About to execute process ";
+            //std::cerr<<pName;
             execvp(pName,myargs);
             std::cerr << "exec failed\n";
             std::quick_exit(-1);
@@ -85,7 +85,7 @@ void StartProcessCommand::waitForExit(int rc){
             int status;
             int wc=waitpid(rc,&status,0);
             if (wc<0){
-                throw std::runtime_error("Waitpid did not return properly");
+                //throw std::runtime_error("Waitpid did not return properly");
             }
             if (WIFEXITED(status)){
                 if (WEXITSTATUS(status)==0){
@@ -96,12 +96,12 @@ void StartProcessCommand::waitForExit(int rc){
                    std::cout<<"exit status: "+WEXITSTATUS(status)<<"\n";
 		  std::cout<<"foreground process exited incorrectly."<<"\n";
 		 
-                    throw std::runtime_error("Child did not exit successfully.");
+                    //throw std::runtime_error("Child did not exit successfully.");
                 }
             }else if (WIFSIGNALED(status)){
 
 	      std::cout<<"Child process terminated by signal "+WTERMSIG(status);
-                throw std::runtime_error("Child process terminated by signal "+WTERMSIG(status));
+                //throw std::runtime_error("Child process terminated by signal "+WTERMSIG(status));
             }  
             //If none of above true, child was either stopped or continued. Wait for termination.
 	    // }

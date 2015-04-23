@@ -53,7 +53,7 @@ std::vector<std::string> Parser::parse(std::string str){
 						insideQuotes=false;
 					}
 					else{
-						args.push_back(std::move(curr));
+						curr+=c;
 					}
 				}
 				else {
