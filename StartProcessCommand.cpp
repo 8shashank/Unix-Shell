@@ -53,9 +53,9 @@ void StartProcessCommand::execute(){
         	int size=parsedargs.size();
             std::cerr<<"SIZE:"<<size<<"\n";
             char *myargs[size+1];
-            std::cerr<<"\n\n";
+            std::cerr<<"Child's pid is:"<<getpid();
             for (int i=0;i<size;i++){
-                            std::cerr<<parsedargs[i];
+                            //std::cerr<<parsedargs[i];
             		myargs[i]=const_cast<char*>(parsedargs[i].c_str());
             }
             std::cerr<<"\n";
@@ -98,6 +98,7 @@ void StartProcessCommand::waitForExit(int rc){
             std::shared_ptr<Process> deadProcess;
             Shell *s = Shell::instance();
             deadProcess = s->getProcess(rc);
+            deadProcess->set_signal(WTERMSIG(status));
             deadProcess->set_state("Exited");
             if (WIFEXITED(status)){
                 if (WEXITSTATUS(status)==0){
@@ -131,15 +132,17 @@ void StartProcessCommand::sig_handler(int sig){
             std::cout<<getpid() << sig << ' ' << strerror(errno)<<std::endl;
             return;
         }
-        if (pid != -1){
+        if (pid != -1 && pid!=0){
             
             std::shared_ptr<Process> deadProcess;
             Shell *s = Shell::instance();
             deadProcess = s->getProcess(pid);
-            
+            deadProcess->set_state("Exited");
+             int terminated_sig = WTERMSIG(status);
+             deadProcess->set_signal(terminated_sig);
+
             if (deadProcess->isBg()){
                 if (WIFEXITED(status)){
-                    deadProcess->set_state("Exited");
                     
                     if (WEXITSTATUS(status)==0){
                         std::cout<<"Child "<<pid<<" exited successfully"<<std::endl;
@@ -149,11 +152,8 @@ void StartProcessCommand::sig_handler(int sig){
                     }
                 }
                 else if (WIFSIGNALED(status)){
-                    int terminated_sig = WTERMSIG(status);
-                    deadProcess->set_signal(terminated_sig);
                     std::cout<<"Child "<<pid<<" terminated by signal "<<terminated_sig<<std::endl;
                 }
-            
                 if (deadProcess->isAutoRecovery()) {
                     StartProcessCommand RecCommand(deadProcess->get_name(),deadProcess->get_args(),deadProcess->isBg(),deadProcess->isAutoRecovery());
                     RecCommand.execute();
