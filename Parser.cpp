@@ -73,10 +73,10 @@ std::vector<std::string> Parser::parse(std::string str){
 		escaped=((c=='\\') && !escaped);
 	}
 	if (escaped){
-		throw Exceptions::ParserException("Last character cannot act as escape character");
+		throw Exceptions::ParserException("Malformed input: Last character cannot act as escape character");
 	}
 	if (insideQuotes){
-		throw Exceptions::ParserException("Quotes not closed");
+		throw Exceptions::ParserException("Malformed input: Quotes not closed");
 	}
 	args.push_back(std::move(curr));
 	return args;

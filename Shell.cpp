@@ -1,4 +1,5 @@
 #include "Shell.h"
+#include "Exceptions.h"
 
 Shell *Shell::instance_=nullptr;
 
@@ -67,17 +68,28 @@ void Shell::loop(){
 	std::vector<std::string> args;
 	std::cout<<"#: ";
 	std::getline (std::cin,input);
+	bool skip=false;
 	while (input!="exit"){
-		args=p.parse(input);
-		for(auto i=args.begin();i<args.end();i++){
-			std::cout<<*i<<std::endl;
+		try{
+			args=p.parse(input);
+		}
+		catch (Exceptions::ParserException e){
+			std::cout<<e.what()<<std::endl;
+			skip=true;
 		}
 
-		Command *cmd=factory->makeCommand(args.begin(),args.end());
-		cmd->execute();
-		std::cout<<"#: ";
+		if (!skip){
+			for(auto i=args.begin();i<args.end();i++){
+				std::cout<<*i<<std::endl;
+			}
 
+			Command *cmd=factory->makeCommand(args.begin(),args.end());
+			cmd->execute();
+		}
+
+		std::cout<<"#: ";
 		std::cin.clear();
 		std::getline (std::cin,input);
+		skip=false;
 	}
 };
