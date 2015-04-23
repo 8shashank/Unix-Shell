@@ -36,12 +36,6 @@ Command *CommandFactory::makeCommand(v_Iterator begin,v_Iterator end){
 	}
 	else{
 		Command* cmd= new StartProcessCommand(begin,end,backgroundProcess,autorecovery);
-		std::cout<<"Start process command created"<<std::endl;
-		/*
-		for(auto i=begin;i<end;i++){
-			std::cout<<"My argument for the command are:"<<*i<<std::endl;;
-		}
-		*/
 		return cmd;
 	}
 };

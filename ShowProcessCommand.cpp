@@ -13,7 +13,7 @@ ShowProcessCommand::ShowProcessCommand(v_Iterator begin,v_Iterator end)
 void ShowProcessCommand::execute(){
   Shell* s=Shell::instance();
   std::unordered_map<int,std::shared_ptr<Process>> &processes=s->getProcesses();
-  std::cout<<"PID\tStatus\tTerminated by"<<std::endl;
+  std::cout<<"PID\tName\tStatus\tTerminated by"<<std::endl;
   if (pids.empty()){
     for(auto iter=processes.begin();iter!=processes.end();iter++){
       Process &proc=*(iter->second);
@@ -31,7 +31,7 @@ void ShowProcessCommand::execute(){
 }
 
 void ShowProcessCommand::printProcessInfo(int pid,Process &proc){
-  std::cout<<pid<<"\t"<<proc.get_state();
+  std::cout<<pid<<"\t"<<proc.get_name()<<"\t"<<proc.get_state();
   if (proc.get_signal()!=-1){
     std::cout<<"\t"<<proc.get_signal();
   }

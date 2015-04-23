@@ -28,7 +28,6 @@ void Shell::changeCurrentDirectory(std::string fname){
 		throw std::runtime_error("Could not change directory, received error "+ret);
 	}
 	setCurrentDirectory();
-	std::cout<<"Current shell directory: "<<getCurrentDirectory()<<"\n";
 }
 
 void Shell::addProcess(int pid,std::shared_ptr<Process> process){
@@ -40,7 +39,6 @@ std::unordered_map<int,std::shared_ptr<Process>> &Shell::getProcesses(){
 }
 
 std::shared_ptr<Process> Shell::getProcess(int pid){
-	std::cout<<"Trying to get process for pid "<<pid<<std::endl;
     return processMap[pid];
 }
 
@@ -63,7 +61,6 @@ Shell* Shell::instance(){
 Shell::Shell(){
 	factory=new CommandFactory();
 	setCurrentDirectory();
-	std::cout<<"Current shell directory: "<<getCurrentDirectory()<<"\n";
 }
 
 void Shell::loop(){
@@ -71,7 +68,7 @@ void Shell::loop(){
 	std::string input;
 	std::string n;
 	std::vector<std::string> args;
-	std::cout<<"#: ";
+	std::cout<<getCurrentDirectory()<<"#: ";
 	std::getline (std::cin,input);
 	bool skip=false;
 	while (input!="exit"){
@@ -84,15 +81,11 @@ void Shell::loop(){
 		}
 
 		if (!skip && input.length()!=0){
-			for(auto i=args.begin();i<args.end();i++){
-				std::cout<<*i<<std::endl;
-			}
-
 			Command *cmd=factory->makeCommand(args.begin(),args.end());
 			cmd->execute();
 		}
 
-		std::cout<<"#: ";
+		std::cout<<getCurrentDirectory()<<"#: ";
 		std::cin.clear();
 		std::getline (std::cin,input);
 		skip=false;

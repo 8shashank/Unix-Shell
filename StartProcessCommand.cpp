@@ -5,14 +5,12 @@ StartProcessCommand::StartProcessCommand(v_Iterator begin,v_Iterator end,bool ba
   v_Iterator iter=begin;
   while(iter!=end){
     if (*iter=="&"){
-      //std::cout<<"Bg is true"<<std::endl;
       bg=true;
     }
     else if (*iter=="--autorecovery"){
       autorec=true;
     }
     else{
-      std::cout<<"I'm pushing"<<*iter;
       parsedargs.push_back(*iter);
     }
     ++iter;
@@ -45,25 +43,17 @@ void StartProcessCommand::execute(){
   if (sigprocmask(SIG_BLOCK,&mask,NULL)==-1){
     std::cout<<"Blocking SIGCHLD failed"<<std::endl;
   }
-  std::cout<<"About to fork process "<<processName<< " as " << getpid() <<"\n";
   int rc=fork();
   if (rc<0){
     fprintf(stderr,"Fork failed\n");
   }else if (rc==0){
     int size=parsedargs.size();
-    std::cerr<<"SIZE:"<<size<<"\n";
     char *myargs[size+1];
-    std::cerr<<"Child's pid is:"<<getpid();
     for (int i=0;i<size;i++){
-      //std::cerr<<parsedargs[i];
       myargs[i]=const_cast<char*>(parsedargs[i].c_str());
     }
-    std::cerr<<"\n";
     myargs[size]=NULL;
     char* pName=const_cast<char*>(processName.c_str());
-    //myargs[0]=pName;
-    //std::cerr<<"About to execute process ";
-    //std::cerr<<pName;
     execvp(pName,myargs);
     std::cerr << "exec failed\n";
     std::quick_exit(-1);
@@ -83,15 +73,9 @@ void StartProcessCommand::execute(){
 }
 
 void StartProcessCommand::waitForExit(int rc){
-  //bool exitedCorrectly=false;
-  // while(!exitedCorrectly){ //i got ride of the while loop.seems like it is
-  //calling a blocking waitpid here for foreground
-  // process so should not need a while loop
-
   int status;
   int wc=waitpid(rc,&status,0);
   if (wc<0){
-    std::cout<<"Waitpid did not return properly";
     return;
   }
 
@@ -103,12 +87,8 @@ void StartProcessCommand::waitForExit(int rc){
   if (WIFEXITED(status)){
     if (WEXITSTATUS(status)==0){
       // exitedCorrectly=true;
-      std::cout<<"foreground process exited correctly."<<"\n";
     }
     else{
-      std::cout<<"exit status: "+WEXITSTATUS(status)<<"\n";
-      std::cout<<"foreground process exited incorrectly."<<"\n";
-
       //throw std::runtime_error("Child did not exit successfully.");
     }
   }else if (WIFSIGNALED(status)){
@@ -124,12 +104,10 @@ void StartProcessCommand::waitForExit(int rc){
 void StartProcessCommand::sig_handler(int sig){
   int pid = 0;
   int status;
-  std::cout<<"I'm in signal handler"<<std::endl;
   do{
     pid = waitpid(-1,&status,WNOHANG);
     //std::cout<<pid<<std::endl;
     if (pid==-1){
-      std::cout<<getpid() << sig << ' ' << strerror(errno)<<std::endl;
       return;
     }
     if (pid != -1 && pid!=0){
@@ -154,7 +132,7 @@ void StartProcessCommand::sig_handler(int sig){
         else if (WIFSIGNALED(status)){
           std::cout<<"Child "<<pid<<" terminated by signal "<<terminated_sig<<std::endl;
         }
-        if (deadProcess->isAutoRecovery()) {
+        if (terminated_sig!=9 && terminated_sig!=11 && deadProcess->isAutoRecovery()) {
           StartProcessCommand RecCommand(deadProcess->get_name(),deadProcess->get_args(),deadProcess->isBg(),deadProcess->isAutoRecovery());
           RecCommand.execute();
         }
