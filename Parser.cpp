@@ -48,8 +48,18 @@ std::vector<std::string> Parser::parse(std::string str){
 				//ignore escape character
 			}
 			else if (c==singleQuoteCharacter || c==doubleQuoteCharacter){
-				insideQuotes=!insideQuotes;
-				quote=c;
+				if (insideQuotes){
+					if (c==quote){
+						insideQuotes=false;
+					}
+					else{
+						args.push_back(std::move(curr));
+					}
+				}
+				else {
+					quote=c;
+					insideQuotes=true;
+				}
 			}
 			else if (c==pipeOperator || c==redirectInputOperator || c==redirectInputOperator
 			|| c==backgroundJobOperator){
