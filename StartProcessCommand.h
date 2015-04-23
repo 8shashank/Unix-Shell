@@ -16,26 +16,26 @@
 typedef std::vector<std::string> string_vector;
 typedef std::vector<std::string>::iterator v_Iterator;
 class StartProcessCommand: public Command{
-    
+
 public:
-    StartProcessCommand(v_Iterator begin,v_Iterator end,bool backgroundProcess,bool autorecovery);
-    StartProcessCommand(std::string processName_,std::vector<std::string> args,bool bg_,bool autorec_);
-    ~StartProcessCommand();
+  StartProcessCommand(v_Iterator begin,v_Iterator end,bool backgroundProcess,bool autorecovery);
+  StartProcessCommand(std::string processName_,std::vector<std::string> args,bool bg_,bool autorec_);
+  ~StartProcessCommand();
 
-    void setInputToPipe(int i);
+  void setInputToPipe(int i);
 
-    void setOutputToPipe(int o);
-    
-    void execute();
-    
-    void static sig_handler(int sig);
-    void waitForExit(int rc);
-    
+  void setOutputToPipe(int o);
+
+  void execute();
+
+  void static sig_handler(int sig);
+  void waitForExit(int rc);
+
 private:
-    std::string processName;
-    std::vector<std::string> parsedargs;
-    bool bg;
-    bool autorec;
+  std::string processName;
+  std::vector<std::string> parsedargs;
+  bool bg;
+  bool autorec;
 };
 
 #endif

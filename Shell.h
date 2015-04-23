@@ -23,34 +23,34 @@ class Parser;
 /*Singleton class that holds the Shell */
 class Shell{
 public:
-	static Shell *instance();
+  static Shell *instance();
 
-	void loop();
+  void loop();
 
-	std::string getCurrentDirectory();
+  std::string getCurrentDirectory();
 
-	void changeCurrentDirectory(std::string dir);
+  void changeCurrentDirectory(std::string dir);
 
-	void addProcess(int pid, std::shared_ptr<Process> process);
-    	std::shared_ptr<Process> getProcess(int pid);
-    	std::unordered_map<int,std::shared_ptr<Process>> &getProcesses();
-    
-private:
-	Shell();
-	Shell(Shell &s)=delete;
-	void operator=(Shell &s)=delete;
-	void setCurrentDirectory();
-	~Shell();
-
+  void addProcess(int pid, std::shared_ptr<Process> process);
+  std::shared_ptr<Process> getProcess(int pid);
+  std::unordered_map<int,std::shared_ptr<Process>> &getProcesses();
 
 private:
-	static Shell *instance_;
+  Shell();
+  Shell(Shell &s)=delete;
+  void operator=(Shell &s)=delete;
+  void setCurrentDirectory();
+  ~Shell();
 
- private:
-  	std::string currDir;
-  	std::unordered_map<int,std::shared_ptr<Process>> processMap;
-  	CommandFactory *factory;
-  	//bool continue;
+
+private:
+  static Shell *instance_;
+
+private:
+  std::string currDir;
+  std::unordered_map<int,std::shared_ptr<Process>> processMap;
+  CommandFactory *factory;
+  //bool continue;
 };
 
 #endif
