@@ -30,6 +30,10 @@ Command *CommandFactory::makeCommand(v_Iterator begin,v_Iterator end){
 		 Command* cmd=new CdCommand(begin,end);
 		 return cmd;
 	}
+	else if (*begin=="ps"){
+		Command* cmd=new ShowProcessCommand(begin,end);
+		return cmd;
+	}
 	else{
 		Command* cmd= new StartProcessCommand(begin,end,backgroundProcess,autorecovery);
 		std::cout<<"Start process command created"<<std::endl;

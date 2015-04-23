@@ -8,6 +8,7 @@
 #include "Shell.h"
 #include "CdCommand.h"
 #include "StartProcessCommand.h"
+#include "ShowProcessCommand.h"
 #include "Parser.h"
 
 class Shell;

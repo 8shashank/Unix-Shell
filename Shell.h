@@ -33,6 +33,7 @@ public:
 
 	void addProcess(int pid, std::shared_ptr<Process> process);
     	std::shared_ptr<Process> getProcess(int pid);
+    	std::unordered_map<int,std::shared_ptr<Process>> &getProcesses();
     
 private:
 	Shell();

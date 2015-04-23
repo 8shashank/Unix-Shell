@@ -11,6 +11,7 @@ std::string Shell::getCurrentDirectory(){
 	return currDir;
 }
 
+
 void Shell::changeCurrentDirectory(std::string fname){
 	if (fname.length()>PATH_MAX-1){
 		throw std::runtime_error("Path is longer than maximum allowed size.");
@@ -32,6 +33,10 @@ void Shell::changeCurrentDirectory(std::string fname){
 
 void Shell::addProcess(int pid,std::shared_ptr<Process> process){
 	processMap.emplace(int(pid),process);
+}
+
+std::unordered_map<int,std::shared_ptr<Process>> &Shell::getProcesses(){
+	return processMap;
 }
 
 std::shared_ptr<Process> Shell::getProcess(int pid){
@@ -78,7 +83,7 @@ void Shell::loop(){
 			skip=true;
 		}
 
-		if (!skip){
+		if (!skip && input.length()!=0){
 			for(auto i=args.begin();i<args.end();i++){
 				std::cout<<*i<<std::endl;
 			}

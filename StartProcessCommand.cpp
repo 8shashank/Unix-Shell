@@ -2,15 +2,17 @@
 #include <errno.h>
 StartProcessCommand::StartProcessCommand(v_Iterator begin,v_Iterator end,bool backgroundProcess,bool autorecovery):bg(backgroundProcess),autorec(autorecovery){
 	processName=*begin;
-	v_Iterator iter=begin+1;
+	v_Iterator iter=begin;
 	while(iter!=end){
 		if (*iter=="&"){
+                                        //std::cout<<"Bg is true"<<std::endl;
 			bg=true;
 		}
 		else if (*iter=="--autorecovery"){
 			autorec=true;
 		}
 		else{
+                                        std::cout<<"I'm pushing"<<*iter;
 			parsedargs.push_back(*iter);
 		}
 		++iter;
@@ -49,13 +51,17 @@ void StartProcessCommand::execute(){
             fprintf(stderr,"Fork failed\n");
         }else if (rc==0){
         	int size=parsedargs.size();
-            char *myargs[size+2];
+            std::cerr<<"SIZE:"<<size<<"\n";
+            char *myargs[size+1];
+            std::cerr<<"\n\n";
             for (int i=0;i<size;i++){
-            		myargs[i+1]=const_cast<char*>(parsedargs[i].c_str());
+                            std::cerr<<parsedargs[i];
+            		myargs[i]=const_cast<char*>(parsedargs[i].c_str());
             }
-            myargs[size+1]=NULL;
+            std::cerr<<"\n";
+            myargs[size]=NULL;
             char* pName=const_cast<char*>(processName.c_str());
-            myargs[0]=pName;
+            //myargs[0]=pName;
             //std::cerr<<"About to execute process ";
             //std::cerr<<pName;
             execvp(pName,myargs);
@@ -85,8 +91,14 @@ void StartProcessCommand::waitForExit(int rc){
             int status;
             int wc=waitpid(rc,&status,0);
             if (wc<0){
-                //throw std::runtime_error("Waitpid did not return properly");
+                std::cout<<"Waitpid did not return properly";
+                return;
             }
+
+            std::shared_ptr<Process> deadProcess;
+            Shell *s = Shell::instance();
+            deadProcess = s->getProcess(rc);
+            deadProcess->set_state("Exited");
             if (WIFEXITED(status)){
                 if (WEXITSTATUS(status)==0){
 		  // exitedCorrectly=true;
@@ -99,7 +111,8 @@ void StartProcessCommand::waitForExit(int rc){
                     //throw std::runtime_error("Child did not exit successfully.");
                 }
             }else if (WIFSIGNALED(status)){
-
+                     int terminated_sig = WTERMSIG(status);
+                    deadProcess->set_signal(terminated_sig);
 	      std::cout<<"Child process terminated by signal "+WTERMSIG(status);
                 //throw std::runtime_error("Child process terminated by signal "+WTERMSIG(status));
             }  

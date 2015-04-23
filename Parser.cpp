@@ -88,6 +88,8 @@ std::vector<std::string> Parser::parse(std::string str){
 	if (insideQuotes){
 		throw Exceptions::ParserException("Malformed input: Quotes not closed");
 	}
-	args.push_back(std::move(curr));
+	if (curr.length()!=0){
+		args.push_back(std::move(curr));
+	}
 	return args;
 };
