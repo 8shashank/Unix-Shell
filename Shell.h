@@ -26,7 +26,7 @@ class Parser;
 @details: Shell currently supports background processes,
 foreground processes, change directory command,
 and auto-recovery mode.
- */
+*/
 class Shell{
 public:
   /*

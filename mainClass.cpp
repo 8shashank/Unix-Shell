@@ -10,6 +10,6 @@
 @brief: Main class for the program
 */
 int main(){
-        //Create a shell instance and start loop
-        Shell::instance()->loop();
+  //Create a shell instance and start loop
+  Shell::instance()->loop();
 }

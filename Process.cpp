@@ -4,33 +4,33 @@ Process::Process(std::string pName, std::vector<std::string> args, bool bg_, boo
 processName(pName),parsedArgs(args),bg(bg_),autorec(autorec_),signal(-1),state("Running"){};
 
 std::string Process::get_state(){
-	return state;
+  return state;
 }
 
 void Process::set_state(std::string state_){
-	state=state_;
+  state=state_;
 }
 
 int Process::get_signal(){
-	return signal;
+  return signal;
 }
 
 void Process::set_signal(int sig){
-	signal=sig;
+  signal=sig;
 }
 
 std::string Process::get_name(){
-    return processName;
+  return processName;
 }
 
 std::vector<std::string> Process::get_args(){
-    return parsedArgs;
+  return parsedArgs;
 }
 
 bool Process::isAutoRecovery(){
-	return autorec;
+  return autorec;
 }
 
 bool Process::isBg(){
-    return bg;
+  return bg;
 }

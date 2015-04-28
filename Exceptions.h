@@ -3,23 +3,23 @@
 #include <exception>
 #include <string>
 namespace Exceptions{
-class ParserException : public std::exception
-{
-public:
-/*
+  class ParserException : public std::exception
+  {
+  public:
+    /*
 @brief: ParserException constructor
 @param: String message to show when thrown
 */
-ParserException(const std::string& message);
+    ParserException(const std::string& message);
 
-/*
+    /*
 @brief: Prints the error message
 */
-virtual char const * what() const throw();
+    virtual char const * what() const throw();
 
-private:
-	//Error message to throw
-	std::string msg;
-};
+  private:
+    //Error message to throw
+    std::string msg;
+  };
 };
 #endif

@@ -15,17 +15,17 @@ class Shell;
 typedef std::vector<std::string> string_vector;
 typedef std::vector<std::string>::iterator v_Iterator;
 class CommandFactory{
-    
+  
 public:
-    /*
+  /*
     @brief: Constructor for the CommandFactory object
     */
-    CommandFactory();
-    
-    /*
+  CommandFactory();
+  
+  /*
     @brief: Makes a command based on user arguments and returns a pointer to it
     */
-    Command *makeCommand(std::vector<std::string>::iterator begin,std::vector<std::string>::iterator end);
+  Command *makeCommand(std::vector<std::string>::iterator begin,std::vector<std::string>::iterator end);
 
 };
 #endif
