@@ -4,7 +4,7 @@
 Shell *Shell::instance_=nullptr;
 
 Shell::~Shell(){
-
+	delete factory;
 }
 
 std::string Shell::getCurrentDirectory(){

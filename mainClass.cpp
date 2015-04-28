@@ -6,7 +6,10 @@
 #include <linux/limits.h>
 #include "Shell.h"
 
+/*
+@brief: Main class for the program
+*/
 int main(){
-	//get current working directory
+        //Create a shell instance and start loop
         Shell::instance()->loop();
 }

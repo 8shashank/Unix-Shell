@@ -1,3 +1,4 @@
+
 #ifndef PARSER_H
 #define PARSER_H
 #include <iostream>
@@ -9,7 +10,16 @@
 
 class Parser{
 public:
+/*
+@brief: Constructor for the Parser object
+*/
 Parser();
+
+/*
+@brief: Parses user input of string and returns a vector of arguments
+@params: User input as string
+@return: vector of arguments as string
+*/
 std::vector<std::string> parse(std::string);
 
 private:

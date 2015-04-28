@@ -7,12 +7,6 @@ std::string Process::get_state(){
 	return state;
 }
 
-/*
-Process::Process(Process &p):
-processName(p.processName),parsedArgs(p.parsedArgs),bg(p.bg),autorec(p.autorec),signal(p.signal),state(p.state)
-{}*/
-
-
 void Process::set_state(std::string state_){
 	state=state_;
 }
