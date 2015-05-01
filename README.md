@@ -28,6 +28,7 @@ o    Note that the running process can be killed by using the kill command follo
 
 •  Query the status of previously launched process
 o    Type “ps” in the shell
+
 o    This should prints out a table showing information on all the previously launched processes, including the process name, its status, and its exit status
 
 •    Change current working directory
