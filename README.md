@@ -1,6 +1,6 @@
 Building instructions
 
-1.    Change the current working directory to the project (folder “CS-281-Project”)
+1.    Change the current working directory to the project folder
 2.    Run cmake by typing “cmake .”
 3.    Build the executable by typing “make”
 4.    Run the executable by typing “./mainClass”
