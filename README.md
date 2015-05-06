@@ -16,17 +16,17 @@
   * Type the name is the program followed by its arguments; include a “&” sign in any part of the command
   * Example: 
     * sleep & 5s
-This should suspend execution in the background for 5 seconds while still allowing users to run foreground processes. After 5 seconds, the console should print out a message showing if the process has exited successfully with its pid.
+  * This should suspend execution in the background for 5 seconds while still allowing users to run foreground processes. After 5 seconds, the console should print out a message showing if the process has exited successfully with its pid.
 
 3. Run a background process with auto recovery mode
   * Type the name of the program followed by its arguments, then followed by “- -autorecovery”
   * Example: 
     * echo & “hi” - -autorecovery
-In auto recovery mode, the program restarts continuously unless killed by SIGINT or SIGSEGV.
+  * In auto recovery mode, the program restarts continuously unless killed by SIGINT or SIGSEGV.
 
 4. Query the status of previously launched process
   * Type “ps” in the shell
-This prints out a table showing information on all the previously launched processes, including the process name, its status, and its exit status.
+  * This prints out a table showing information on all the previously launched processes, including the process name, its status, and its exit status.
 
 5. Change current working directory
   * Type “cd” followed by the subdirectory
